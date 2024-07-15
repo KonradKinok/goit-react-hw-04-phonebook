@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, ChangeEvent } from "react";
+import React,{ useState, useEffect, ChangeEvent, useRef } from "react";
 import * as globalFunctions from "../../globalFunctions/functions"
 import scss from "./Phonebook.module.scss";
 import ContactForm from "../ContactForm/index";
@@ -13,16 +13,18 @@ interface Contact {
 }
 
 export function Contacts() {
-    const [contacts, setContacts] = useState<Contact[]>([]);
+    const [contacts, setContacts] = useState<Contact[]>(globalFunctions.loadLocalStorage(localStorageKey) as Contact[]);
     const [filter, setFilter] = useState<string>("");
-    
-    useEffect(() => {
-        const contactsFromLocalStorage = globalFunctions.loadLocalStorage(localStorageKey) as Contact[];
-        console.log("contactsFromLocalStorage", contactsFromLocalStorage.length);
-        setContacts(contactsFromLocalStorage);
-        console.log("start", contacts.length);
-    }, []);
-    
+    const initialized = useRef(false);
+
+    // useEffect(() => {
+    //     if (!initialized.current) {
+    //         initialized.current = true;
+    //         const contactsFromLocalStorage = globalFunctions.loadLocalStorage(localStorageKey) as Contact[];
+    //         setContacts(contactsFromLocalStorage);
+    //     };
+    // }, []);
+
     useEffect(() => {
         globalFunctions.saveLocalStorage(localStorageKey, contacts);
     }, [contacts]);
