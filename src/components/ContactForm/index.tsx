@@ -41,7 +41,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ addContact, contacts }) => {
         );
 
         if (contactExists) {
-            window.alert(`${newContact.name} is already in contacts`);
+            window.alert(`${newContact.name} or ${newContact.number} is already in contacts`);
             return;
         }
 
