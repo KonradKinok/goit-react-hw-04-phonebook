@@ -17,27 +17,28 @@ export function Contacts() {
     const [filter, setFilter] = useState<string>("");
     
     useEffect(() => {
-    const contactsFromLocalStorage = globalFunctions.loadLocalStorage(localStorageKey) as Contact[] || [];
-    setContacts(contactsFromLocalStorage);
+        const contactsFromLocalStorage = globalFunctions.loadLocalStorage(localStorageKey) as Contact[];
+        console.log("contactsFromLocalStorage", contactsFromLocalStorage.length);
+        setContacts(contactsFromLocalStorage);
+        console.log("start", contacts.length);
     }, []);
     
-    const addContact = (contact: Contact) => {
-        setContacts((prevContacts) => {
-            const updatedContacts = [...prevContacts, contact];
-            globalFunctions.saveLocalStorage(localStorageKey, updatedContacts);
-            return updatedContacts;
-        });
-    };
+    useEffect(() => {
+        globalFunctions.saveLocalStorage(localStorageKey, contacts);
+    }, [contacts]);
 
+    const addContact = (contact: Contact) => {
+        setContacts((prevContacts) =>  [...prevContacts, contact] );
+    };     
+    
     const handleDelete = (contactId: string) => {
         setContacts((prevContacts) => {
             const updatedContacts = prevContacts.filter(
                 (contact) => contact.id !== contactId,
             );
-            globalFunctions.saveLocalStorage(localStorageKey, updatedContacts);
             return updatedContacts;
         });
-    };
+    };  
 
     const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFilter(event.target.value);
