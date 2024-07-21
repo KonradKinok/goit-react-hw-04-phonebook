@@ -13,7 +13,7 @@ interface Contact {
 }
 
 export function Contacts() {
-    const [contacts, setContacts] = useState<Contact[]>(globalFunctions.loadLocalStorage(localStorageKey) as Contact[]);
+    const [contacts, setContacts] = useState<Contact[]>(globalFunctions.loadLocalStorage(localStorageKey) as Contact[]||[]);
     const [filter, setFilter] = useState<string>("");
     const initialized = useRef(false);
 
